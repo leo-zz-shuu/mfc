@@ -2,14 +2,12 @@
 Fortran compiler in Haskell
 
 --------------------------------------------------
---- build
---------------------------------------------------
+build
 
-cd src
+cd src 
 ghc Main.hs -o mfc -outputdir build
 
 --------------------------------------------------
---- run test
---------------------------------------------------
+run test
 
 ./mfc -a ./examples/test.macaf
