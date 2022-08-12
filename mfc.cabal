@@ -1,0 +1,94 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: a6e2a35e681bcfb68b9e3c2c9cde797706265b6ec9279a7acae1ddfb98c4e95e
+
+name:           mfc
+version:        0.1.0.0
+synopsis:       A Maca Fortran Compiler In Haskell
+category:       Compilers/Interpreters
+homepage:       https://github.com/leo/mfc#readme
+bug-reports:    https://github.com/leo/mfc/issues
+author:         Leo
+maintainer:     Leo
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+library
+  exposed-modules:
+      Macaf
+      Macaf.Ast
+      Macaf.Codegen
+      Macaf.Parser.Combinator
+      -- Macaf.Sast
+      Macaf.Scanner.Combinator
+      -- Macaf.Semant
+      -- Macaf.Semant.Analysis
+      -- Macaf.Semant.Error
+      -- Macaf.Toplevel
+      Macaf.Utils
+  other-modules:
+      Paths_mfc
+  hs-source-dirs:
+      src
+  default-extensions:
+      OverloadedStrings, LambdaCase
+  ghc-options: -Wall -fno-warn-name-shadowing -Wcompat -Wincomplete-uni-patterns
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , directory
+    , filepath
+    , llvm-hs ==9.*
+    , llvm-hs-pretty >=0.9 && <1
+    , llvm-hs-pure ==9.*
+    , megaparsec
+    , mtl
+    , parser-combinators
+    , prettyprinter
+    , process
+    , string-conversions
+    , text
+    , unix
+  default-language: Haskell2010
+
+executable mfc
+  main-is: Main.hs
+  other-modules:
+      Paths_mfc
+  hs-source-dirs:
+      app
+  default-extensions:
+      OverloadedStrings, LambdaCase
+  ghc-options: -Wall -fno-warn-name-shadowing -Wcompat -Wincomplete-uni-patterns
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , directory
+    , filepath
+    , llvm-hs ==9.*
+    , llvm-hs-pretty >=0.9 && <1
+    , llvm-hs-pure ==9.*
+    , mfc
+    , megaparsec
+    , mtl
+    , optparse-applicative
+    , parser-combinators
+    , pretty-simple
+    , prettyprinter
+    , process
+    , string-conversions
+    , text
+    , unix
+  default-language: Haskell2010
+
