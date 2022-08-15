@@ -4,9 +4,12 @@ Fortran compiler in Haskell
 --------------------------------------------------
 build
 
-cd src 
-ghc Main.hs -o mfc -outputdir build
+1. 
+cd src. 
+ghc Main.hs -o mfc -outputdir build. 
 
+2.  
+cabal build macaf.cabal
 --------------------------------------------------
 run test
 
