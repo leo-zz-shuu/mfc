@@ -1,16 +1,19 @@
 # mfc
 Fortran compiler in Haskell
 
---------------------------------------------------
-build
+# build
 
-1. 
-cd src. 
-ghc Main.hs -o mfc -outputdir build. 
+1. build by ghc
 
-2.  
-cabal build macaf.cabal
---------------------------------------------------
-run test
+	cd src
 
-./mfc -a ./examples/test.macaf
+	ghc Main.hs -o mfc -outputdir build
+
+2. build by cabal
+
+	cabal build macaf.cabal
+
+
+# run test
+
+${PATH}/mfc -a examples/test.macaf
