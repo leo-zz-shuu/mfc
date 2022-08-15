@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE LambdaCase #-}
+
 module Macaf.Ast where
 
 import Data.Char (chr)
@@ -107,23 +110,29 @@ data ProgramUnit =
 --  | Block_Data
 data Program =
   Program ProgramUnit
-  deriving (Eq, Show) --------------------------------------------
+  deriving (Eq, Show)
+
+--------------------------------------------
 -- Pretty instances
 --------------------------------------------
--- instance Pretty Function where
---   pretty (Function typ name formals locals body) =
---     pretty typ <+>
---     pretty name <>
---     tupled (map pretty formals) <>
---     hardline <>
---     lbrace <>
---     hardline <>
---     indent 4 (hardsep (map decl locals ++ map pretty body)) <>
---     hardline <> rbrace <> hardline
--- instance Pretty Program where
---   pretty (Program unit) = hardsep (map pretty unit)
--- decl :: Pretty a => a -> Doc ann
--- decl bind = pretty bind <> semi
--- | Separates many docs with hardlines
--- hardsep :: [Doc ann] -> Doc ann
--- hardsep = concatWith (\x y -> x <> hardline <> y)
+instance Pretty UnOp where
+  pretty =
+    \case
+      Not -> "!"
+
+instance Pretty BinOp where
+  pretty =
+    \case
+      Add -> "+"
+      Sub -> "-"
+      Mul -> "*"
+      Div -> "/"
+
+instance Pretty Expr where
+  pretty =
+    \case
+      Var name -> pretty name
+      Literal l -> pretty l
+      UnaryOp op e -> pretty op <> parens (pretty e)
+      BinaryOp op lhs rhs -> hsep [pretty lhs, pretty op, pretty rhs]
+      Assign lhs rhs -> pretty lhs <+> "=" <+> pretty rhs

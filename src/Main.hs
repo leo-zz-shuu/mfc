@@ -10,8 +10,8 @@ import qualified Data.Text.IO as T
 import LLVM.Pretty
 import Options.Applicative
 
-import Data.Text.Prettyprint.Doc
-import Data.Text.Prettyprint.Doc.Render.Text
+import Prettyprinter
+import Prettyprinter.Render.Text
 import Text.Pretty.Simple
 
 data Action
