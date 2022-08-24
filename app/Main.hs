@@ -58,8 +58,11 @@ runOpts (Options action infile) = do
     Left err -> putStrLn $ errorBundlePretty err
     -- Right ast -> pPrint ast
     Right ast ->
-      let llvm = codegenProgram ast
-       in T.putStrLn . cs . ppllvm $ llvm
+      case checkProgram ast of
+        Left err -> putDoc $ pretty err <> "\n"
+        Right sast ->
+          let llvm = codegenProgram sast
+           in T.putStrLn . cs . ppllvm $ llvm
     --   in pPrint $ show llvm
     -- Right ast -> putDoc $ pretty ast <> "\n"
       -- case action of

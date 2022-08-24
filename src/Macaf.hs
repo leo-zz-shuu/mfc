@@ -8,4 +8,6 @@ import Macaf.Ast as X
 import Macaf.Codegen as X
 import Macaf.MessageType as X
 import Macaf.Parser.Combinator as X
+import Macaf.Sast as X
 import Macaf.Scanner.Combinator as X
+import Macaf.Semant as X

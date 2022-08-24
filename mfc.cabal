@@ -26,11 +26,11 @@ library
       Macaf.Ast
       Macaf.Codegen
       Macaf.Parser.Combinator
-      -- Macaf.Sast
+      Macaf.Sast
       Macaf.Scanner.Combinator
-      -- Macaf.Semant
+      Macaf.Semant
+      Macaf.MessageType
       -- Macaf.Semant.Analysis
-      -- Macaf.Semant.Error
       -- Macaf.Toplevel
       Macaf.Utils
   other-modules:

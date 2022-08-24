@@ -176,7 +176,7 @@ codegenFunc (MainProgram fname sp ep _)
 
 codegenProgram :: Program -> AST.Module
 -- codegenProgram (structs, globals, funcs) =
-codegenProgram (Program progunit)
+codegenProgram (Program progunits)
   -- flip evalState (Env {operands = M.empty, structs, strings = M.empty}) $
  =
   flip evalState (Env {operands = M.empty, strings = M.empty}) $
@@ -187,4 +187,4 @@ codegenProgram (Program progunit)
     -- mapM_ emitTypeDef structs
     -- mapM_ codegenGlobal progunit
     -- mapM_ codegenFunc funcs
-  codegenProgramUnit progunit
+  mapM_ codegenProgramUnit progunits

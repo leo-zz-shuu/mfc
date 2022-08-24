@@ -100,16 +100,17 @@ data MainProgram =
     EndProgramStmt
   deriving (Eq, Show)
 
-data ProgramUnit =
-  MainProgramUnit MainProgram
+data ProgramUnit
+  = MainProgramUnit MainProgram
+  | FunctionUnit
+  | SubroutineUnit
+  | ModuleUnit
+  | SubModuleUnit
+  | BlockDataUnit
   deriving (Eq, Show)
 
---  | External_subprogram
---  | Module
---  | SubModule
---  | Block_Data
 data Program =
-  Program ProgramUnit
+  Program [ProgramUnit]
   deriving (Eq, Show)
 
 --------------------------------------------

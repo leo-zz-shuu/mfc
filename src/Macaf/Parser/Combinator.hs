@@ -103,4 +103,4 @@ programUnitP :: MacafParser ProgramUnit
 programUnitP = MainProgramUnit <$> mainProgramP
 
 programP :: MacafParser Program
-programP = Program <$> programUnitP
+programP = Program <$> many programUnitP

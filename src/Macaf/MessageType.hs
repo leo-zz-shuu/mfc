@@ -91,7 +91,7 @@ data ErrorMsg
     -- 106001 - 200000: Parse Message
   | E_106001 Text
     -- 206001 - 300000: Semantic Message
-  | E_206001 SemantError
+  | E_206001
     -- 306001 - 400000: Codegen Message
   | E_306001
   deriving (Show)
@@ -99,7 +99,7 @@ data ErrorMsg
 instance Pretty ErrorMsg where
   pretty =
     \case
-      E_206001 se -> pretty se
+      E_206001 -> "The Main Program should be declared once in the program"
 
 data Msg
   = InfoKind InfoMsg
