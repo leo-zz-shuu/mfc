@@ -31,7 +31,8 @@ type Semant = ExceptT Msg (State Env)
 checkProgUnit :: ProgramUnit -> Semant SProgramUnit
 checkProgUnit (MainProgramUnit mainp) = do
   mp <- gets mainprog
-  unless (isJust mp) $ throwError $ ErrorKind E_206001
+  unless (isNothing mp) $ throwError $ ErrorKind E_206001
+  modify $ \env -> env {mainprog = Just mainp}
   pure $ MainProgramUnit mainp
 
 checkProgram :: Program -> Either Msg SProgram

@@ -59,8 +59,9 @@ runOpts (Options action infile) = do
     -- Right ast -> pPrint ast
     Right ast ->
       let llvm = codegenProgram ast
-       in T.putStrLn . cs . ppllvm $ llvm
-    --   in pPrint $ show llvm
+       in pPrint $ show llvm
+      -- in T.putStrLn . cs . ppllvm $ llvm
+       -- in pPrint $ show llvm
     -- Right ast -> putDoc $ pretty ast <> "\n"
       -- case action of
         --aAst -> putDoc $ pretty ast <> "\n"

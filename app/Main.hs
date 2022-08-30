@@ -12,8 +12,8 @@ import Options.Applicative
 
 import Data.Text.Prettyprint.Doc
 import Data.Text.Prettyprint.Doc.Render.Text
-import Text.Pretty.Simple
 
+-- import Text.Pretty.Simple
 data Action
   = Ast
   | Sast

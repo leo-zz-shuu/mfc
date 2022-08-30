@@ -53,10 +53,8 @@ library
     , mtl
     , parser-combinators
     , prettyprinter
-    , process
     , string-conversions
     , text
-    , unix
   default-language: Haskell2010
 
 executable mfc
@@ -82,11 +80,8 @@ executable mfc
     , mtl
     , optparse-applicative
     , parser-combinators
-    , pretty-simple
     , prettyprinter
-    , process
     , string-conversions
     , text
-    , unix
   default-language: Haskell2010
 
