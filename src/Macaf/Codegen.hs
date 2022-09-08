@@ -13,7 +13,9 @@ module Macaf.Codegen
 import LLVM.AST (Operand)
 
 import qualified LLVM.AST as AST
+import qualified LLVM.AST.AddrSpace as AST
 import qualified LLVM.AST.Constant as C
+import qualified LLVM.AST.DataLayout as AST
 import qualified LLVM.AST.Float as AST
 import qualified LLVM.AST.FloatingPointPredicate as FP
 import qualified LLVM.AST.IntegerPredicate as IP
@@ -29,6 +31,7 @@ import LLVM.Prelude (ShortByteString)
 
 import Control.Monad.State
 import qualified Data.Map as M
+import qualified Data.Set as S
 import Data.String (fromString)
 
 import Macaf.Ast
@@ -174,13 +177,32 @@ codegenFunc (MainProgram fname sp ep _)
       codegenExecutionPart ep
       return ()
 
+x86TargetTriple :: ShortByteString
+x86TargetTriple = "x86_64-unknown-linux-gnu"
+
+x86DataLayout :: AST.DataLayout
+x86DataLayout =
+  (AST.defaultDataLayout AST.LittleEndian)
+    { AST.endianness = AST.LittleEndian
+    , AST.pointerLayouts =
+        M.fromList [(AST.AddrSpace 0, (64, AST.AlignmentInfo 64 64))]
+    , AST.typeLayouts =
+        M.fromList $
+        [((AST.IntegerAlign, 1), AST.AlignmentInfo 8 8)] ++
+        [((AST.IntegerAlign, w), AST.AlignmentInfo w w) | w <- [8, 16, 32, 64]] ++
+        [((AST.FloatAlign, w), AST.AlignmentInfo w w) | w <- [32, 64]] ++
+        [((AST.VectorAlign, w), AST.AlignmentInfo w w) | w <- [16, 32, 64, 128]]
+    , AST.nativeSizes = Just $ S.fromList [16, 32, 64]
+    }
+
 codegenProgram :: Program -> AST.Module
 -- codegenProgram (structs, globals, funcs) =
 codegenProgram (Program progunits)
   -- flip evalState (Env {operands = M.empty, structs, strings = M.empty}) $
  =
   flip evalState (Env {operands = M.empty, strings = M.empty}) $
-  L.buildModuleT "macaf" $
+  fmap mkModule . L.execModuleBuilderT L.emptyModuleBuilder $
+    -- L.buildModuleT "macaf" $
     -- printf <- L.externVarArgs (mkName "printf") [charStar] AST.i32
     -- registerOperand "printf" printf
     -- mapM_ emitBuiltIn builtIns
@@ -188,3 +210,12 @@ codegenProgram (Program progunits)
     -- mapM_ codegenGlobal progunit
     -- mapM_ codegenFunc funcs
   mapM_ codegenProgramUnit progunits
+  where
+    mkModule ds =
+      AST.Module
+        { AST.moduleName = "macaf"
+        , AST.moduleSourceFileName = "test.macaf"
+        , AST.moduleDataLayout = Just x86DataLayout
+        , AST.moduleTargetTriple = Just x86TargetTriple
+        , AST.moduleDefinitions = ds
+        }
