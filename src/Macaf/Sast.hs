@@ -1,7 +1,7 @@
 module Macaf.Sast where
 
-import Data.Text (Text)
-import Macaf.Ast
+import           Data.Text (Text)
+import           Macaf.Ast
 
 type SProgramUnit = ProgramUnit
 

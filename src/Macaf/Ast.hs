@@ -1,35 +1,25 @@
+{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE LambdaCase #-}
 
 module Macaf.Ast where
 
-import Data.Char (chr)
-import Data.Text (Text)
-import Prettyprinter
+import           Data.Char     (chr)
+import           Data.Text     (Text)
+import           Prettyprinter
 
-data UnOp =
-  Not
-  deriving (Show, Eq)
+data UnOp = Not deriving (Eq, Show)
 
 -- Binary operators
-data BinOp
-  = Add
-  | Sub
-  | Mul
-  | Div
-  deriving (Show, Eq)
+data BinOp = Add | Sub | Mul | Div deriving (Eq, Show)
 
-data Type
-  = TyInteger
-  | TyReal
-  deriving (Show, Eq)
+data Type = TyInteger | TyReal deriving (Eq, Show)
 
-data Bind =
-  Bind
-    { bindType :: Type
-    , bindName :: Text
-    }
-  deriving (Show, Eq)
+data Bind
+  = Bind
+      { bindType :: Type
+      , bindName :: Text
+      }
+  deriving (Eq, Show)
 
 data Expr
   = Var Text
@@ -41,47 +31,47 @@ data Expr
 
 type ProgramName = Expr
 
-data ProgramStmt =
-  ProgramSt ProgramName
+data ProgramStmt
+  = ProgramSt ProgramName
   deriving (Eq, Show)
 
 -- data Contains_stmt = CONTAINS
-data EndProgramStmt =
-  EndProgramStmt ProgramName
+data EndProgramStmt
+  = EndProgramStmt ProgramName
   deriving (Eq, Show)
 
 -- data AssignmentStmt =
 --   AssignmentStmt Expr
-data ActionStmt =
-  Assignment Expr
+data ActionStmt
+  = Assignment Expr
   deriving (Eq, Show)
 
-data ExecutableConstruct =
-  Action ActionStmt
+data ExecutableConstruct
+  = Action ActionStmt
   deriving (Eq, Show)
 
-data ExecutionPart =
-  ExecutionPart ExecutableConstruct
+data ExecutionPart
+  = ExecutionPart ExecutableConstruct
   deriving (Eq, Show)
 
-data DeclarationTypeSpec =
-  IntrisicTypeSpec Bind
+data DeclarationTypeSpec
+  = IntrisicTypeSpec Bind
   deriving (Eq, Show)
 
-data TypeDeclaration =
-  TypeDeclaration DeclarationTypeSpec
+data TypeDeclaration
+  = TypeDeclaration DeclarationTypeSpec
   deriving (Eq, Show)
 
-data SpecificationConstruct =
-  TypeDeclarationStmt TypeDeclaration
+data SpecificationConstruct
+  = TypeDeclarationStmt TypeDeclaration
   deriving (Eq, Show)
 
-data DeclarationConstruct =
-  SpecificationConstructStmt SpecificationConstruct
+data DeclarationConstruct
+  = SpecificationConstructStmt SpecificationConstruct
   deriving (Eq, Show)
 
-data SpecificationPart =
-  SpecificationPart DeclarationConstruct
+data SpecificationPart
+  = SpecificationPart DeclarationConstruct
   deriving (Eq, Show)
 
 -- data Function_stmt =
@@ -91,13 +81,9 @@ data SpecificationPart =
 -- data FunctionSubprogram = Function_stmt End_function_stmt
 -- data Internal_subprogram = Function_subprogram
 -- data Internal_subprogram_part = Contains_stmt [Internal_subprogram]
-data MainProgram =
-  MainProgram
-    ProgramStmt
-    SpecificationPart
-    ExecutionPart
-    -- InternalSubprogramPart
-    EndProgramStmt
+data MainProgram
+  = MainProgram ProgramStmt SpecificationPart ExecutionPart EndProgramStmt
+  -- InternalSubprogramPart
   deriving (Eq, Show)
 
 data ProgramUnit
@@ -109,8 +95,8 @@ data ProgramUnit
   | BlockDataUnit
   deriving (Eq, Show)
 
-data Program =
-  Program [ProgramUnit]
+data Program
+  = Program [ProgramUnit]
   deriving (Eq, Show)
 
 --------------------------------------------
@@ -132,8 +118,8 @@ instance Pretty BinOp where
 instance Pretty Expr where
   pretty =
     \case
-      Var name -> pretty name
-      Literal l -> pretty l
-      UnaryOp op e -> pretty op <> parens (pretty e)
+      Var name            -> pretty name
+      Literal l           -> pretty l
+      UnaryOp op e        -> pretty op <> parens (pretty e)
       BinaryOp op lhs rhs -> hsep [pretty lhs, pretty op, pretty rhs]
-      Assign lhs rhs -> pretty lhs <+> "=" <+> pretty rhs
+      Assign lhs rhs      -> pretty lhs <+> "=" <+> pretty rhs

@@ -1,37 +1,28 @@
+{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE LambdaCase #-}
 
 module Macaf.MessageType where
 
-import Data.Text (Text)
-import Macaf.Ast
-import Prettyprinter
+import           Data.Text     (Text)
+import           Macaf.Ast
+import           Prettyprinter
 
 type Name = Text
 
-data BindingKind
-  = Duplicate
-  | Void
-  deriving (Show)
+data BindingKind = Duplicate | Void deriving (Show)
 
 instance Pretty BindingKind where
   pretty = unsafeViaShow
 
-data SymbolKind
-  = VarSymbol
-  | FuncSymbol
-  deriving (Show)
+data SymbolKind = VarSymbol | FuncSymbol deriving (Show)
 
 instance Pretty SymbolKind where
   pretty =
     \case
-      VarSymbol -> "variable"
+      VarSymbol  -> "variable"
       FuncSymbol -> "function"
 
-data VarKind
-  = Global
-  | Local
-  deriving (Show, Eq, Ord)
+data VarKind = Global | Local deriving (Eq, Ord, Show)
 
 instance Pretty VarKind where
   pretty = unsafeViaShow
@@ -46,13 +37,13 @@ data SemantError
   deriving (Show)
 
 data InfoMsg
-    -- 000001 ~ 100000: General Message
+  -- 000001 ~ 100000: General Message
   = I_000001
-    -- 100001 - 200000: Parse Message
+  -- 100001 - 200000: Parse Message
   | I_100001 Text
-    -- 200001 - 300000: Semantic Message
+  -- 200001 - 300000: Semantic Message
   | I_200001
-    -- 300001 - 400000: Codegen Message
+  -- 300001 - 400000: Codegen Message
   | I_300001
   deriving (Show)
 
@@ -62,13 +53,13 @@ instance Pretty InfoMsg where
       I_000001 -> "Infomation"
 
 data WarningMsg
-    -- 002001 ~ 100000: General Message
+  -- 002001 ~ 100000: General Message
   = W_002001
-    -- 102001 - 200000: Parse Message
+  -- 102001 - 200000: Parse Message
   | W_102001
-    -- 202001 - 300000: Semantic Message
+  -- 202001 - 300000: Semantic Message
   | W_202001 Text
-    -- 302001 - 400000: Codegen Message
+  -- 302001 - 400000: Codegen Message
   | W_302001
   deriving (Show)
 
@@ -86,13 +77,13 @@ instance Pretty SemantError where
         "Cannot assign" <+> pretty rhs <+> "to" <+> pretty lhs
 
 data ErrorMsg
-    -- 006001 ~ 100000: General Message
+  -- 006001 ~ 100000: General Message
   = E_006001
-    -- 106001 - 200000: Parse Message
+  -- 106001 - 200000: Parse Message
   | E_106001 Text
-    -- 206001 - 300000: Semantic Message
+  -- 206001 - 300000: Semantic Message
   | E_206001
-    -- 306001 - 400000: Codegen Message
+  -- 306001 - 400000: Codegen Message
   | E_306001
   deriving (Show)
 
@@ -110,6 +101,6 @@ data Msg
 instance Pretty Msg where
   pretty =
     \case
-      InfoKind msg -> "[Info Message:]" <+> pretty msg
+      InfoKind msg    -> "[Info Message:]" <+> pretty msg
       WarningKind msg -> "[Warning Message:]" <+> pretty msg
-      ErrorKind msg -> "[Error Message:]" <+> pretty msg
+      ErrorKind msg   -> "[Error Message:]" <+> pretty msg

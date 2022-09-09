@@ -2,16 +2,17 @@
 
 module Macaf.Scanner.Combinator where
 
-import Control.Monad (void)
-import Data.Char
-
-import Data.String.Conversions
-
-import Data.Text (Text)
-import qualified Data.Text as T
-import Data.Void
-import Text.Megaparsec
-import Text.Megaparsec.Char
+import           Control.Monad              (void)
+import           Data.Char                  ()
+import           Data.String.Conversions    ()
+import           Data.Text                  (Text)
+import qualified Data.Text                  as T
+import           Data.Void                  (Void)
+import           Text.Megaparsec            (MonadParsec (notFollowedBy, try),
+                                             Parsec, between, empty, many,
+                                             single, (<|>))
+import           Text.Megaparsec.Char       (alphaNumChar, char, letterChar,
+                                             space1, string)
 import qualified Text.Megaparsec.Char.Lexer as L
 
 type MacafParser = Parsec Void Text

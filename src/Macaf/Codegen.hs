@@ -1,58 +1,58 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE RecursiveDo #-}
-{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE NamedFieldPuns        #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE RecursiveDo           #-}
+{-# LANGUAGE TupleSections         #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module Macaf.Codegen
-  ( codegenProgram
-  ) where
+    ( codegenProgram
+    ) where
 
-import LLVM.AST (Operand)
+import           LLVM.AST                        (Operand)
 
-import qualified LLVM.AST as AST
-import qualified LLVM.AST.AddrSpace as AST
-import qualified LLVM.AST.Constant as C
-import qualified LLVM.AST.DataLayout as AST
-import qualified LLVM.AST.Float as AST
+import qualified LLVM.AST                        as AST
+import qualified LLVM.AST.AddrSpace              as AST
+import qualified LLVM.AST.Constant               as C
+import qualified LLVM.AST.DataLayout             as AST
+import qualified LLVM.AST.Float                  as AST
 import qualified LLVM.AST.FloatingPointPredicate as FP
-import qualified LLVM.AST.IntegerPredicate as IP
-import LLVM.AST.Name
-import qualified LLVM.AST.Type as AST
-import LLVM.AST.Typed (typeOf)
+import qualified LLVM.AST.IntegerPredicate       as IP
+import           LLVM.AST.Name
+import qualified LLVM.AST.Type                   as AST
+import           LLVM.AST.Typed                  (typeOf)
 
-import qualified LLVM.IRBuilder.Constant as L
-import qualified LLVM.IRBuilder.Instruction as L
-import qualified LLVM.IRBuilder.Module as L
-import qualified LLVM.IRBuilder.Monad as L
-import LLVM.Prelude (ShortByteString)
+import qualified LLVM.IRBuilder.Constant         as L
+import qualified LLVM.IRBuilder.Instruction      as L
+import qualified LLVM.IRBuilder.Module           as L
+import qualified LLVM.IRBuilder.Monad            as L
+import           LLVM.Prelude                    (ShortByteString)
 
-import Control.Monad.State
-import qualified Data.Map as M
-import qualified Data.Set as S
-import Data.String (fromString)
+import           Control.Monad.State
+import qualified Data.Map                        as M
+import qualified Data.Set                        as S
+import           Data.String                     (fromString)
 
-import Macaf.Ast
+import           Macaf.Ast
 
 -- import Macaf.Ast (Bind(..), Op(..), Struct(..), Type(..), Uop(..))
 -- import Microc.Sast
-import Macaf.Utils
+import           Macaf.Utils
 
-import Data.List (find)
-import Data.String.Conversions
-import qualified Data.Text as T
-import Data.Text (Text)
-import Data.Word (Word32)
+import           Data.List                       (find)
+import           Data.String.Conversions
+import           Data.Text                       (Text)
+import qualified Data.Text                       as T
+import           Data.Word                       (Word32)
 
 -- When using the IRBuilder, both functions and variables have the type Operand
-data Env =
-  Env
-    { operands :: M.Map Text Operand
-    -- , structs :: [Struct]
-    , strings :: M.Map Text Operand
-    }
+data Env
+  = Env
+      { operands :: M.Map Text Operand
+        -- , structs :: [Struct]
+      , strings  :: M.Map Text Operand
+      }
   deriving (Eq, Show)
 
 -- LLVM and Codegen type synonyms allow us to emit module definitions and basic
