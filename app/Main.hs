@@ -2,16 +2,16 @@
 
 module Main where
 
-import Macaf hiding (MacafParser)
+import           Macaf                                 hiding (MacafParser)
 
-import Data.String.Conversions
-import qualified Data.Text as T
-import qualified Data.Text.IO as T
-import LLVM.Pretty
-import Options.Applicative
+import           Data.String.Conversions
+import qualified Data.Text                             as T
+import qualified Data.Text.IO                          as T
+import           LLVM.Pretty
+import           Options.Applicative
 
-import Data.Text.Prettyprint.Doc
-import Data.Text.Prettyprint.Doc.Render.Text
+import           Data.Text.Prettyprint.Doc
+import           Data.Text.Prettyprint.Doc.Render.Text
 
 -- import Text.Pretty.Simple
 data Action
@@ -21,11 +21,11 @@ data Action
   | Compile FilePath
   | Run
 
-data Options =
-  Options
-    { action :: Action
-    , infile :: FilePath
-    }
+data Options
+  = Options
+      { action :: Action
+      , infile :: FilePath
+      }
 
 actionP :: Parser Action
 actionP =
