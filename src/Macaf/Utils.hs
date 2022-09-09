@@ -1,6 +1,6 @@
 module Macaf.Utils where
 
-import Control.Monad.State
+import           Control.Monad.State
 
 locally :: MonadState s m => m a -> m a
 locally computation = do
