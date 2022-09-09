@@ -1,18 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Macaf.Parser.Combinator
-  ( programP
-  , runParser
-  , errorBundlePretty
-  ) where
+    ( errorBundlePretty
+    , programP
+    , runParser
+    ) where
 
-import Control.Applicative (liftA2, liftA3)
+import           Control.Applicative            (liftA2, liftA3)
 
-import Control.Monad.Combinators.Expr
-import Data.Either
-import Macaf.Ast
-import Macaf.Scanner.Combinator
-import Text.Megaparsec
+import           Control.Monad.Combinators.Expr
+import           Data.Either
+import           Macaf.Ast
+import           Macaf.Scanner.Combinator
+import           Text.Megaparsec
 
 opTable :: [[Operator MacafParser Expr]]
 opTable =
