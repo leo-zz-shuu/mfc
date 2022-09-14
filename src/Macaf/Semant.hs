@@ -21,10 +21,8 @@ import           Macaf.Utils
 -- type Vaars = M.Map (Text, VarKind) Type
 -- type Funcs = M.Map Text Function
 -- type Structs = [Struct]
-data Env
-  = Env
-      { mainprog :: Maybe MainProgram
-      }
+data Env = Env { mainprog :: Maybe MainProgram
+               }
 
 type Semant = ExceptT Msg (State Env)
 

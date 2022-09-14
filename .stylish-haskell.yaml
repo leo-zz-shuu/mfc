@@ -11,13 +11,13 @@ steps:
       separate_lists: true
 
   - records:
-      equals: "indent 2"
-      first_field: "indent 2"
+      equals: "same_line"
+      first_field: "same_line"
       field_comment: 2
       deriving: 2
       via: "indent 2"
       sort_deriving: true
-      #break_enums: false
+      break_enums: false
       break_single_constructors: true
       curried_context: false
 

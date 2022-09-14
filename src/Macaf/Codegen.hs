@@ -47,12 +47,10 @@ import qualified Data.Text                       as T
 import           Data.Word                       (Word32)
 
 -- When using the IRBuilder, both functions and variables have the type Operand
-data Env
-  = Env
-      { operands :: M.Map Text Operand
-        -- , structs :: [Struct]
-      , strings  :: M.Map Text Operand
-      }
+data Env = Env { operands :: M.Map Text Operand
+                 -- , structs :: [Struct]
+               , strings  :: M.Map Text Operand
+               }
   deriving (Eq, Show)
 
 -- LLVM and Codegen type synonyms allow us to emit module definitions and basic
