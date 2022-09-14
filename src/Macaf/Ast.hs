@@ -14,64 +14,51 @@ data BinOp = Add | Sub | Mul | Div deriving (Eq, Show)
 
 data Type = TyInteger | TyReal deriving (Eq, Show)
 
-data Bind
-  = Bind
-      { bindType :: Type
-      , bindName :: Text
-      }
+data Bind = Bind { bindType :: Type
+                 , bindName :: Text
+                 }
   deriving (Eq, Show)
 
-data Expr
-  = Var Text
-  | Literal Integer
-  | UnaryOp UnOp Expr
-  | BinaryOp BinOp Expr Expr
-  | Assign Expr Expr
+data Expr = Var Text
+          | Literal Integer
+          | UnaryOp UnOp Expr
+          | BinaryOp BinOp Expr Expr
+          | Assign Expr Expr
   deriving (Eq, Show)
 
 type ProgramName = Expr
 
-data ProgramStmt
-  = ProgramSt ProgramName
+data ProgramStmt = ProgramSt ProgramName
   deriving (Eq, Show)
 
 -- data Contains_stmt = CONTAINS
-data EndProgramStmt
-  = EndProgramStmt ProgramName
+data EndProgramStmt = EndProgramStmt ProgramName
   deriving (Eq, Show)
 
 -- data AssignmentStmt =
 --   AssignmentStmt Expr
-data ActionStmt
-  = Assignment Expr
+data ActionStmt = Assignment Expr
   deriving (Eq, Show)
 
-data ExecutableConstruct
-  = Action ActionStmt
+data ExecutableConstruct = Action ActionStmt
   deriving (Eq, Show)
 
-data ExecutionPart
-  = ExecutionPart ExecutableConstruct
+data ExecutionPart = ExecutionPart ExecutableConstruct
   deriving (Eq, Show)
 
-data DeclarationTypeSpec
-  = IntrisicTypeSpec Bind
+data DeclarationTypeSpec = IntrisicTypeSpec Bind
   deriving (Eq, Show)
 
-data TypeDeclaration
-  = TypeDeclaration DeclarationTypeSpec
+data TypeDeclaration = TypeDeclaration DeclarationTypeSpec
   deriving (Eq, Show)
 
-data SpecificationConstruct
-  = TypeDeclarationStmt TypeDeclaration
+data SpecificationConstruct = TypeDeclarationStmt TypeDeclaration
   deriving (Eq, Show)
 
-data DeclarationConstruct
-  = SpecificationConstructStmt SpecificationConstruct
+data DeclarationConstruct = SpecificationConstructStmt SpecificationConstruct
   deriving (Eq, Show)
 
-data SpecificationPart
-  = SpecificationPart DeclarationConstruct
+data SpecificationPart = SpecificationPart DeclarationConstruct
   deriving (Eq, Show)
 
 -- data Function_stmt =
@@ -81,22 +68,19 @@ data SpecificationPart
 -- data FunctionSubprogram = Function_stmt End_function_stmt
 -- data Internal_subprogram = Function_subprogram
 -- data Internal_subprogram_part = Contains_stmt [Internal_subprogram]
-data MainProgram
-  = MainProgram ProgramStmt SpecificationPart ExecutionPart EndProgramStmt
-  -- InternalSubprogramPart
+data MainProgram = MainProgram ProgramStmt SpecificationPart ExecutionPart EndProgramStmt
+                 -- InternalSubprogramPart
   deriving (Eq, Show)
 
-data ProgramUnit
-  = MainProgramUnit MainProgram
-  | FunctionUnit
-  | SubroutineUnit
-  | ModuleUnit
-  | SubModuleUnit
-  | BlockDataUnit
+data ProgramUnit = MainProgramUnit MainProgram
+                 | FunctionUnit
+                 | SubroutineUnit
+                 | ModuleUnit
+                 | SubModuleUnit
+                 | BlockDataUnit
   deriving (Eq, Show)
 
-data Program
-  = Program [ProgramUnit]
+data Program = Program [ProgramUnit]
   deriving (Eq, Show)
 
 --------------------------------------------

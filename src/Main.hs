@@ -13,18 +13,15 @@ import           Prettyprinter
 import           Prettyprinter.Render.Text
 import           Text.Pretty.Simple
 
-data Action
-  = Ast
-  | Sast
-  | LLVM
-  | Compile FilePath
-  | Run
+data Action = Ast
+            | Sast
+            | LLVM
+            | Compile FilePath
+            | Run
 
-data Options
-  = Options
-      { action :: Action
-      , infile :: FilePath
-      }
+data Options = Options { action :: Action
+                       , infile :: FilePath
+                       }
 
 actionP :: Parser Action
 actionP =
