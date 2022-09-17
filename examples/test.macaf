@@ -1,6 +1,5 @@
-program main
+program aaa
   ! This is the test for Maca Fortran
   integer a
   a = 10000
-end program main
-
+end program aaa

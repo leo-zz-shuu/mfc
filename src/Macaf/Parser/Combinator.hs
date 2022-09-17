@@ -63,8 +63,9 @@ typeP = TyInteger <$ pKeyword "integer" <|> TyReal <$ pKeyword "real"
 vdeclP :: MacafParser Bind
 vdeclP = Bind <$> typeP <*> identifier
 
-programStmtP :: MacafParser ProgramStmt
-programStmtP = ProgramSt <$> (pKeyword "program" *> variableP)
+programStmtP :: MacafParser ProgramName
+programStmtP = ProgramName . Just <$> (pKeyword "program" *> identifier)
+           <|> (return $ ProgramName Nothing)
 
 actionStmtP :: MacafParser ActionStmt
 actionStmtP = Assignment <$> exprP
@@ -75,9 +76,15 @@ executableConstructP = Action <$> actionStmtP
 executionPartP :: MacafParser ExecutionPart
 executionPartP = ExecutionPart <$> executableConstructP
 
-endProgramStmtP :: MacafParser EndProgramStmt
-endProgramStmtP =
-  EndProgramStmt <$> (pKeyword "end" *> pKeyword "program" *> variableP)
+endProgramStmtP :: ProgramName -> MacafParser ()
+endProgramStmtP ProgramName {programName=Just pn} = do
+  -- endProgramName <- ProgramName . Just <$> (pKeyword "end" *> pKeyword "program" *> identifier)
+  -- endProgramName <- programStmtP
+  endProgramName <- pKeyword "end" *> programStmtP
+  return ()
+endProgramStmtP ProgramName {programName=Nothing} = do
+  pKeyword "end"
+  return ()
 
 declarationTypeSpecP :: MacafParser DeclarationTypeSpec
 declarationTypeSpecP = IntrisicTypeSpec <$> vdeclP
@@ -95,12 +102,15 @@ specificationPartP :: MacafParser SpecificationPart
 specificationPartP = SpecificationPart <$> declarationConstructP
 
 mainProgramP :: MacafParser MainProgram
-mainProgramP =
-  MainProgram <$> programStmtP <*> specificationPartP <*> executionPartP <*>
-  endProgramStmtP
+mainProgramP = do
+  programName <- programStmtP
+  decls <- many specificationPartP
+  execs <- many executionPartP
+  endProgramStmtP programName
+  return $ MainProgram programName decls execs
 
 programUnitP :: MacafParser ProgramUnit
 programUnitP = MainProgramUnit <$> mainProgramP
 
 programP :: MacafParser Program
-programP = Program <$> many programUnitP
+programP = between sc eof $ Program <$> many programUnitP

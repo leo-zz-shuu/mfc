@@ -26,14 +26,11 @@ data Expr = Var Text
           | Assign Expr Expr
   deriving (Eq, Show)
 
-type ProgramName = Expr
-
-data ProgramStmt = ProgramSt ProgramName
+data ProgramName = ProgramName { programName :: Maybe Text
+                               }
   deriving (Eq, Show)
 
 -- data Contains_stmt = CONTAINS
-data EndProgramStmt = EndProgramStmt ProgramName
-  deriving (Eq, Show)
 
 -- data AssignmentStmt =
 --   AssignmentStmt Expr
@@ -68,7 +65,7 @@ data SpecificationPart = SpecificationPart DeclarationConstruct
 -- data FunctionSubprogram = Function_stmt End_function_stmt
 -- data Internal_subprogram = Function_subprogram
 -- data Internal_subprogram_part = Contains_stmt [Internal_subprogram]
-data MainProgram = MainProgram ProgramStmt SpecificationPart ExecutionPart EndProgramStmt
+data MainProgram = MainProgram ProgramName [SpecificationPart] [ExecutionPart]
                  -- InternalSubprogramPart
   deriving (Eq, Show)
 
