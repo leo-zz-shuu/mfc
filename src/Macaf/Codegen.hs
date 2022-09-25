@@ -121,7 +121,7 @@ codegenProgramUnit (MainProgramUnit mp) = codegenFunc mp
 -- | Generate a function and add both the function name and variable names to
 -- the map.
 codegenFunc :: MainProgram -> LLVM ()
-codegenFunc (MainProgram fname (sp:sps) (ep:eps))
+codegenFunc (MainProgram fname (sp:sps) (ep:eps) _)
   -- We need to forward reference the generated function and insert it into the
   -- environment _before_ generating its body in order to handle the
   -- possibility of the function calling itself recursively

@@ -62,11 +62,18 @@ data SpecificationPart = SpecificationPart DeclarationConstruct
 --   FUNCTION FunctionName
 -- data EndFunctionStmt =
 --   END [FUNCTION [FunctionName]]
--- data FunctionSubprogram = Function_stmt End_function_stmt
--- data Internal_subprogram = Function_subprogram
--- data Internal_subprogram_part = Contains_stmt [Internal_subprogram]
-data MainProgram = MainProgram ProgramName [SpecificationPart] [ExecutionPart]
-                 -- InternalSubprogramPart
+
+type FunctionName = Text
+type SubprogramName = Text
+
+data SubprogramPart = FunctionPart FunctionName [SpecificationPart] [ExecutionPart] [InternalSubprogramPart]
+                    | SubroutinePart SubprogramName [SpecificationPart] [ExecutionPart] [InternalSubprogramPart]
+  deriving (Eq, Show)
+
+data InternalSubprogramPart = Contains [SubprogramPart]
+  deriving (Eq, Show)
+
+data MainProgram = MainProgram ProgramName [SpecificationPart] [ExecutionPart] [InternalSubprogramPart]
   deriving (Eq, Show)
 
 data ProgramUnit = MainProgramUnit MainProgram

@@ -76,6 +76,29 @@ executableConstructP = Action <$> actionStmtP
 executionPartP :: MacafParser ExecutionPart
 executionPartP = ExecutionPart <$> executableConstructP
 
+functionP :: MacafParser SubprogramPart
+functionP = do
+  functionName <- pKeyword "function" *> identifier
+  execs <- many executionPartP
+  pKeyword "end"
+  return $ FunctionPart functionName [] execs []
+
+subroutineP :: MacafParser SubprogramPart
+subroutineP = do
+  subroutineName <- pKeyword "subroutine" *> identifier
+  execs <- many executionPartP
+  pKeyword "end"
+  return $ SubroutinePart subroutineName [] execs []
+
+internalSubprogramP :: MacafParser SubprogramPart
+internalSubprogramP = functionP <|> subroutineP
+
+internalSubprogramPartP :: MacafParser InternalSubprogramPart
+internalSubprogramPartP = do
+  pKeyword "contains"
+  internalSubprograms <- many internalSubprogramP
+  return $ Contains internalSubprograms
+
 endProgramStmtP :: ProgramName -> MacafParser ()
 endProgramStmtP ProgramName {programName=Just pn} = do
   -- endProgramName <- ProgramName . Just <$> (pKeyword "end" *> pKeyword "program" *> identifier)
@@ -106,8 +129,9 @@ mainProgramP = do
   programName <- programStmtP
   decls <- many specificationPartP
   execs <- many executionPartP
+  internalSubprograms <- many internalSubprogramPartP
   endProgramStmtP programName
-  return $ MainProgram programName decls execs
+  return $ MainProgram programName decls execs internalSubprograms
 
 programUnitP :: MacafParser ProgramUnit
 programUnitP = MainProgramUnit <$> mainProgramP
